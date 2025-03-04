@@ -1,7 +1,7 @@
 {
   "functions": {
-    "api/*": {
-      "includeFiles": ["node_modules/bcrypt/**"]
+    "api/index.js": {
+      "includeFiles": "node_modules/bcrypt/**"
     }
   }
 }
