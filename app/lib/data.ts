@@ -86,6 +86,7 @@ export async function fetchFilteredInvoices(query: string, currentPage: number) 
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
+    console.time("invoice-comming");
     const invoices = await sql<InvoicesTable[]>`
       SELECT
         invoices.id,
@@ -106,7 +107,7 @@ export async function fetchFilteredInvoices(query: string, currentPage: number) 
       ORDER BY invoices.date DESC
       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
     `;
-
+    console.timeEnd("invoice-comming");
     return invoices;
   } catch (error) {
     console.error("Database Error:", error);
@@ -146,13 +147,13 @@ export async function fetchInvoiceById(id: string) {
       FROM invoices
       WHERE invoices.id = ${id};
     `;
-
     const invoice = data.map((invoice) => ({
       ...invoice,
       // Convert amount from cents to dollars
       amount: invoice.amount / 100,
     }));
 
+    console.log(invoice);
     return invoice[0];
   } catch (error) {
     console.error("Database Error:", error);
